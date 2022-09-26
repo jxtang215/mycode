@@ -1,0 +1,14 @@
+---
+- name: install some stuff    # metadata
+  hosts: bender, fry  # we want to take the planetexpress group and remove farnsworth
+  gather_facts: yes   # default is yes
+
+  tasks:                             # a list of what we want to do
+                
+     - name: install a fun app named sl and figlet  # metadata  
+       apt:                     # the module we want to run, apt.py
+           name:                # parameter name has the value figlet and sl
+             - figlet          
+             - sl      
+        state: present       # parameter state has the value present
+    become: yes              # elevate status to admin, sudo, enable, etc.
