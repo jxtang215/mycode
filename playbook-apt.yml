@@ -1,14 +1,18 @@
 ---
-- name: install some stuff    # metadata
-  hosts: bender, fry  # we want to take the planetexpress group and remove farnsworth
-  gather_facts: yes   # default is yes
+- name:  Tuesday Challenge
+- hosts: planetexpress:!fansworth
+  connection: ssh
+  gather_facts: yes
+  become: true
 
-  tasks:                             # a list of what we want to do
-                
-     - name: install a fun app named sl and figlet  # metadata  
-       apt:                     # the module we want to run, apt.py
-           name:                # parameter name has the value figlet and sl
-             - figlet          
-             - sl      
-        state: present       # parameter state has the value present
-    become: yes              # elevate status to admin, sudo, enable, etc.
+  tasks:
+    - name: print out the variable named "result"
+      debug: # the debug module is similar to print() in python-- it prints stuff out!
+        var: result # displaying the value of the variable "result"
+
+    - name: Using apt to install sl
+        apt:
+          name: sl
+          state: present
+    register: result # <--this is new! "register" is creating a variable named "result" which contains the output from this task
+    become: true
