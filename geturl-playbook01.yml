@@ -1,11 +1,27 @@
 ---
-- name: Getting files
-  hosts: planetexpress   # run against the entire planetexpress group
+- name: "Is Jay Awesome?"
+  hosts: looneytunes   # run against the entire planetexpress group
+  become:  true
   connection: ssh        # use the connection module, ssh.py (this is the default)
   gather_facts: no       # do not run the module, setup.py, to define ansible_facts
 
   tasks:
-  - name: "Download virus protection software to install on hosts"
-    get_url:
-      url: http://www.clamav.net/downloads/production/clamav-0.99.3.tar.gz
-      dest: ~/clamav-0.99.3.tar.gz
+  - name: "Create directory challenge"
+      file:
+      path: "/challenge"
+      state: "directory"
+      owner:  root
+      group:  root
+      mode:   "0700"
+
+  - name:  "Download"   
+     get_url:
+         url: http://raw.githubusercontent.com/csfeeser/ansible_essentials/main/data/download.txt
+        dest: /challenge/downloadme.txt
+  - name:  "Update downloadme.txt"
+    replace:
+       path:  "/challenge/downloadme.txt"
+       regexp: "PLACEHOLDER"
+       replace:  "Jay"
+       backup:  yes
+         
